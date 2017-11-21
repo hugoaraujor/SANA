@@ -1,0 +1,88 @@
+﻿@model SANA.ProductViewModel
+
+@{
+	var categoriesProduct = Model.SelectedCategories;
+	ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>Product</h4>
+	<hr />
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<dl class="dl-horizontal">
+			<dt>
+				@Html.DisplayNameFor(model => model.Product.ProductTitle)
+			</dt>
+
+			<dd>
+				@Html.DisplayFor(model => model.Product.ProductTitle)
+			</dd>
+
+			<dt>
+				@Html.DisplayNameFor(model => model.Product.Price)
+			</dt>
+
+			<dd>
+				@Html.DisplayFor(model => model.Product.Price)
+			</dd>
+			@Html.HiddenFor(model => model.Product.ProductNumber)
+		
+		</dl>
+		<div class="form-group">
+			<label class="control-label  col-md-4">Categories Availables</label>
+			<table class="table">
+				<tr>
+					<th>
+						<div class="col-md-6">
+							@Html.DropDownListFor(model => model.newCategory, ListHelper.SelectListItemHelper.GetCategorias(), new
+					   { @class = "form-control required" })
+						</div>
+					</th>
+					<th>
+						<div class="col-md-2 left">
+							<input type="submit" value="Add" class="btn btn-primary" />
+						</div>
+					</th>
+				</tr>
+			</table>
+			
+		</div>
+	</div>
+	@Html.HiddenFor(model => model.newCategory)
+}
+<table class="table">
+	<tr>
+
+		<th>
+		
+			@Html.DisplayNameFor(model => model.Categories)
+		</th>
+
+	</tr>
+
+	@foreach (var item in categoriesProduct)
+	{
+		<tr>
+			<td>
+                 
+				@if (item.Category != null)
+				{
+				@item.Category.CategoryName.ToString()
+				}
+
+			</td>
+
+		</tr>
+	}
+
+</table>
+<p>
+	@Html.ActionLink("Edit", "Edit", new { id = Model.Product.ProductNumber }) |
+	@Html.ActionLink("Back to List", "Index")
+</p>
